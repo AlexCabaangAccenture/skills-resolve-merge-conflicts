@@ -1,12 +1,25 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CAT.App.D365.Service.Infra.Service
 {
-    public interface IAccountService
+    public interface ICompanyService
     {
-        Task<string> GetLedgersAsync(string companyId);
+        //TODO: to be remove?
+        Task<string> CreateCompanyAsync(string companyInfo);
 
-        Task<string> GetAccountStructuresAsync(string[] structureNames);
-        Task<string> GetAccountStructureConstraintsAsync(string[] structureNames);
-        Task<string> GetSegmentNameAsync(string[] infoCodes);
+        //TODO: to be remove?
+        Task<string> GetCurrentPeriodAsync(string dataAreaId);
+
+        //TODO: to be remove?
+        Task<string> GetFiscalCalendarPeriods(string calendarId);
+
+        Task<string> GetCompanyAsync(string legalEntityId);
+
+        Task<string> GetLedgerFiscalPeriodsAsync(string legalEntityId, string calendarName = "Fiscal");
+        Task<string> GetFiscalPeriodsAsync(string periodName, string calendarName, int currentYear);
     }
 }

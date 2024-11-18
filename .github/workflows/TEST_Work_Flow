@@ -1,1 +1,60 @@
+using CAT.App.D365.Service.Core.Utilities;
+
+namespace CAT.App.D365.Service.Infra.Service
+{
+    public class AccountService : IAccountService
+    {
+        private readonly IAPICaller _apiCaller;
+        
+        public AccountService(IAPICaller apiCaller)
+        {
+            _apiCaller = apiCaller;
+           
+        }
+
+        public async Task<string> GetLedgersAsync(string companyId)
+        {
+            string odataQuery = $"data/Ledgers?$filter=LegalEntityId eq '{companyId}'&cross-company=true";
+
+            var response = await _apiCaller.FinOpsApiCallAsync(HttpMethod.Get, odataQuery);
+
+            return response.Content.ReadAsStringAsync().Result;
+          
+        }
+
+        public async Task<string> GetAccountStructuresAsync(string[] structureNames)
+        {
+            string filter = string.Join(" or ", structureNames.Select(name => $"AccountStructureName eq '{name.Trim()}'"));
+            string odataQuery = $"data/AccountStructures?$filter=({filter}) &cross-company=true";
+      
+            var response = await _apiCaller.FinOpsApiCallAsync(HttpMethod.Get, odataQuery);
+
+            return response.Content.ReadAsStringAsync().Result;
+       
+        }
+
+        public async Task<string> GetAccountStructureConstraintsAsync(string[] structureNames)
+        {
+            string filter = string.Join(" or ", structureNames.Select(code => $"AccountStructure eq '{code.Trim()}'"));
+            string odataQuery = $"data/AccountStructureConstraints?$filter=({filter}) &cross-company=true";
+   
+            var response = await _apiCaller.FinOpsApiCallAsync(HttpMethod.Get, odataQuery);
+
+            return response.Content.ReadAsStringAsync().Result;
+        
+        }
+        
+        public async Task<string> GetSegmentNameAsync(string[] infoCodes)
+        {
+            string infoCodeFilter = string.Join(" or ",  infoCodes.Select(code => $"AVADBSInfoCode eq '{code.Trim()}'"));
+            string odataQuery = $"data/DimensionAttributes?$select=DimensionName,AVADBSInfoCode &$filter=({infoCodeFilter})& cross-company=true";
+  
+            var response = await _apiCaller.FinOpsApiCallAsync(HttpMethod.Get, odataQuery);
+
+            return response.Content.ReadAsStringAsync().Result;
+  
+        }
+
+    }
+}
 

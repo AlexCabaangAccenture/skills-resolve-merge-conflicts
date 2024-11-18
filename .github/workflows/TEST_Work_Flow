@@ -1,1 +1,12 @@
 
+namespace CAT.App.D365.Service.Infra.Service
+{
+    public interface IAccountService
+    {
+        Task<string> GetLedgersAsync(string companyId);
+
+        Task<string> GetAccountStructuresAsync(string[] structureNames);
+        Task<string> GetAccountStructureConstraintsAsync(string[] structureNames);
+        Task<string> GetSegmentNameAsync(string[] infoCodes);
+    }
+}

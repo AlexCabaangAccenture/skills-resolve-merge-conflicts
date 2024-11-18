@@ -6,20 +6,18 @@ using System.Threading.Tasks;
 
 namespace CAT.App.D365.Service.Infra.Service
 {
-    public interface ICompanyService
+    public interface ICustomerService
     {
-        //TODO: to be remove?
-        Task<string> CreateCompanyAsync(string companyInfo);
+        Task<string> CreateCustomerAsync(string customerInfo);
 
-        //TODO: to be remove?
-        Task<string> GetCurrentPeriodAsync(string dataAreaId);
+        Task<string> GetCustomerAsync(string companyId, string customerAccount);
 
-        //TODO: to be remove?
-        Task<string> GetFiscalCalendarPeriods(string calendarId);
+        Task<string> UpdateCustomerAsync(string customerInfo, string companyId, string customerAccount);
 
-        Task<string> GetCompanyAsync(string legalEntityId);
+        Task<string> UpdatePartyContactsAsync(string partyNumber, string partyElectronicAddressId, string partyContacId, string partyContactInformation);
 
-        Task<string> GetLedgerFiscalPeriodsAsync(string legalEntityId, string calendarName = "Fiscal");
-        Task<string> GetFiscalPeriodsAsync(string periodName, string calendarName, int currentYear);
+        Task<string> GetPartyContactsAsync(string partyNumber);
+
+        Task<string> CreatePartyContactsAsync(string companyId, string partyNumber, string partyContactInformation);
     }
 }
